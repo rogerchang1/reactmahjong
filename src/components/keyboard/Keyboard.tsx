@@ -2,24 +2,24 @@ import React from "react";
 import { Key } from "./Key.tsx";
 
 type KeyboardProps = {
-    onClick: (value: string) => void,
-}
+  onClick: (value: string) => void;
+};
 
-export const Keyboard = ({onClick}: KeyboardProps) => {
-    return (
-        <div>
-            <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
-                <Key value={"1p"} onClick={onClick}/>
-                <Key value={"2p"} onClick={onClick}/>
-                <Key value={"3p"} onClick={onClick}/>
-                <Key value={"4p"} onClick={onClick}/>
-                <Key value={"5p"} onClick={onClick}/>
-                <Key value={"6p"} onClick={onClick}/>
-                <Key value={"7p"} onClick={onClick}/>
-                <Key value={"8p"} onClick={onClick}/>
-                <Key value={"9p"} onClick={onClick}/>
-            </div>
-            {/* <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
+export const Keyboard = ({ onClick }: KeyboardProps) => {
+  return (
+    <div>
+      <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
+        <Key value={"1p"} onClick={onClick} />
+        <Key value={"2p"} onClick={onClick} />
+        <Key value={"3p"} onClick={onClick} />
+        <Key value={"4p"} onClick={onClick} />
+        <Key value={"5p"} onClick={onClick} />
+        <Key value={"6p"} onClick={onClick} />
+        <Key value={"7p"} onClick={onClick} />
+        <Key value={"8p"} onClick={onClick} />
+        <Key value={"9p"} onClick={onClick} />
+      </div>
+      {/* <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
                 <Key value={"1s"} onClick={onClick}/>
                 <Key value={"2s"} onClick={onClick}/>
                 <Key value={"3s"} onClick={onClick}/>
@@ -50,8 +50,6 @@ export const Keyboard = ({onClick}: KeyboardProps) => {
                 <Key value={"6z"} onClick={onClick}/>
                 <Key value={"7z"} onClick={onClick}/>
             </div> */}
-
-        </div>
-        
-    );
-  };
+    </div>
+  );
+};

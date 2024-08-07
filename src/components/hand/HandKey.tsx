@@ -1,14 +1,15 @@
 import React from "react";
 import { RenderTile } from "../render/Render.tsx";
 
-type KeyProps = {
+type HandKeyProps = {
   value: string;
-  onClick: (value: string) => void;
+  index: number;
+  onClick: (index: number) => void;
 };
 
-export const Key = ({ value, onClick }: KeyProps) => {
+export const HandKey = ({ value, index, onClick }: HandKeyProps) => {
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    onClick(value);
+    onClick(index);
   };
 
   return (

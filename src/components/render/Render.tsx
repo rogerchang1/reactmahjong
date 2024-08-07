@@ -74,6 +74,7 @@ const tileToSVGMap: { [tile: string]: string } = {
   "6z": Haku,
   "7z": Hatsu,
 };
+
 export const RenderTile = ({ tile }: RenderProps) => {
   return (
     <>
