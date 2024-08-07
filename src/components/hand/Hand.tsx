@@ -1,16 +1,25 @@
 import React from "react";
-import { RenderTile } from "../render/Render.tsx";
+import { Key } from "../keyboard/Key.tsx";
 
 type HandProps = {
   value: string[];
+  onClick: (value: string) => void;
 };
 
-export const Hand = ({ value }: HandProps) => {
-  return (
+export const Hand = ({ value, onClick }: HandProps) => {
+
+  const handleClick = (index: string) => {
+    
+  }
+
+  console.log("hand render");
+  return value && value.length !== 0 ? (
     <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
       {value.map((val: string, index: number) => (
-        <RenderTile tile={val} key={index} />
+        <Key value={val} onClick={onClick} key={val+'-'+index} />
       ))}
     </div>
+  ) : (
+    ""
   );
 };
