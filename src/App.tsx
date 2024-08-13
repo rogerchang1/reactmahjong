@@ -5,6 +5,7 @@ import { Hand } from "./components/hand/Hand.tsx";
 import { Option } from "./components/keyboard/Option.tsx";
 import { ToggleButton } from "react-bootstrap";
 import { HandData } from "./components/model/HandData.ts";
+import { tileToValueMap } from "./components/mapper/TileValueMapper.ts";
 
 function App() {
   const [currentHand, setHand] = useState<string[]>([]);
@@ -13,6 +14,7 @@ function App() {
   const handleClickOnAdd = (value: string) => {
     const newHand = [...currentHand];
     newHand.push(value);
+    sortHand(newHand);
     setHand(newHand);
     HandData.hand = newHand.join();
   };
@@ -27,6 +29,10 @@ function App() {
   const handleOnIsRiichiToggle = (isChecked: boolean) => {
     setIsRiichi(isChecked);
     HandData.isRiichi = isChecked;
+  };
+
+  const sortHand = (arr: string[]) => {
+    arr.sort((a, b) => (tileToValueMap[a] > tileToValueMap[b] ? 1 : -1));
   };
 
   return (
