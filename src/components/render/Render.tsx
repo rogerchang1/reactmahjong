@@ -36,6 +36,7 @@ import Hatsu from "../../assets/img/Hatsu.svg";
 
 type RenderProps = {
   tile: string;
+  rotate?: boolean;
 };
 
 const tileToSVGMap: { [tile: string]: string } = {
@@ -75,13 +76,19 @@ const tileToSVGMap: { [tile: string]: string } = {
   "7z": Hatsu,
 };
 
-export const RenderTile = ({ tile }: RenderProps) => {
+export const RenderTile = ({ tile, rotate = false }: RenderProps) => {
+  const rotation = rotate ? 90 : 0;
+  const rot = {
+    transform: `rotate(${rotation}deg)`,
+  };
+
   return (
     <>
       <img
         className="p-1 light:block dark:hidden drop-shadow-tile-light"
         src={tileToSVGMap[tile]}
         alt={tile}
+        style={rot}
       />
     </>
   );

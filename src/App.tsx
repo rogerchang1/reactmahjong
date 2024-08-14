@@ -1,22 +1,39 @@
 import "./App.css";
 import { Keyboard } from "./components/keyboard/Keyboard.tsx";
 import React, { useState } from "react";
-import { Hand } from "./components/hand/Hand.tsx";
+import { HandContainer } from "./components/hand/HandContainer.tsx";
 import { Option } from "./components/keyboard/Option.tsx";
-import { ToggleButton } from "react-bootstrap";
+import { ButtonGroup, ToggleButton } from "react-bootstrap";
 import { HandData } from "./components/model/HandData.ts";
 import { tileToValueMap } from "./components/mapper/TileValueMapper.ts";
+import { Pon } from "./components/hand/calledblocks/pon.tsx";
+import { Block } from "./components/model/Block.ts";
+import { BlockType } from "./components/constants/enums.ts";
 
 function App() {
   const [currentHand, setHand] = useState<string[]>([]);
+  const [currentBlocks, setBlocks] = useState<Block[]>([]);
   const [isRiichi, setIsRiichi] = useState<boolean>(false);
+  const [isPon, setIsPon] = useState<boolean>(false);
 
   const handleClickOnAdd = (value: string) => {
-    const newHand = [...currentHand];
-    newHand.push(value);
-    sortHand(newHand);
-    setHand(newHand);
-    HandData.hand = newHand.join();
+    if (isPon) {
+      const newBlocks = [...currentBlocks];
+      const newBlock: Block = {
+        tile: value,
+        type: BlockType.PON,
+      };
+      newBlocks.push(newBlock);
+      setBlocks(newBlocks);
+      HandData.blocks = newBlocks;
+      console.log(HandData);
+    } else {
+      const newHand = [...currentHand];
+      newHand.push(value);
+      sortHand(newHand);
+      setHand(newHand);
+      HandData.hand = newHand.join();
+    }
   };
 
   const handleClickOnDelete = (index: number) => {
@@ -37,18 +54,43 @@ function App() {
 
   return (
     <>
-      <Hand value={currentHand} onClick={handleClickOnDelete} />
+      <HandContainer
+        value={currentHand}
+        blocks={currentBlocks}
+        onClick={handleClickOnDelete}
+      />
+
+      <Pon
+        value={"2p"}
+        index={0}
+        onClick={function (index: number): void {
+          throw new Error("Function not implemented.");
+        }}
+      ></Pon>
+
       <Keyboard onClick={handleClickOnAdd} />
-      <ToggleButton
-        id="isriichi"
-        type="checkbox"
-        variant="outline-primary"
-        checked={isRiichi}
-        value="1"
-        onChange={(e) => handleOnIsRiichiToggle(e.currentTarget.checked)}
-      >
-        Riichi?
-      </ToggleButton>
+      <ButtonGroup>
+        <ToggleButton
+          id="isRiichi"
+          type="checkbox"
+          variant="outline-primary"
+          checked={isRiichi}
+          value="1"
+          onChange={(e) => handleOnIsRiichiToggle(e.currentTarget.checked)}
+        >
+          Riichi?
+        </ToggleButton>
+        <ToggleButton
+          id="pon"
+          type="checkbox"
+          variant="outline-primary"
+          checked={isPon}
+          value="1"
+          onChange={(e) => setIsPon(e.currentTarget.checked)}
+        >
+          Pon
+        </ToggleButton>
+      </ButtonGroup>
     </>
   );
 }
