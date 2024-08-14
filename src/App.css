@@ -479,7 +479,12 @@ img,video {
 }
 
 .flex {
-    display: flex
+    display: flex;
+}
+
+.mlr-100px {
+    margin-left: 90px;
+    margin-right: 90px;
 }
 
 .contents {

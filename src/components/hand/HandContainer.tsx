@@ -7,14 +7,15 @@ import { HandBlocks } from "./HandBlocks.tsx";
 type HandContainerProps = {
   value: string[];
   blocks: Block[];
-  onClick: (index: number) => void;
+  onTileClick: (index: number) => void;
+  onBlockClick: (index: number) => void;
 };
 
-export const HandContainer = ({ value, blocks, onClick }: HandContainerProps) => {
+export const HandContainer = ({ value, blocks, onTileClick, onBlockClick }: HandContainerProps) => {
   return (
     <div>
-      {value && <HandTiles value={value} onClick={onClick} />}
-      {blocks && <HandBlocks blocks={blocks} onClick={onClick} />}
+      {value && <HandTiles value={value} onClick={onTileClick} />}
+      {blocks && <HandBlocks blocks={blocks} onClick={onBlockClick} />}
     </div>
   );
 };

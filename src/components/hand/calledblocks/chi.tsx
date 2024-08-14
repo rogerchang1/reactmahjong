@@ -2,13 +2,13 @@ import React from "react";
 import { RenderTile } from "../../render/Render.tsx";
 
 
-type PonProps = {
+type ChiProps = {
   value: string;
   index: number;
   onClick: (index: number) => void;
 };
 
-export const Pon = ({ value, index, onClick }: PonProps) => {
+export const Chi = ({ value, index, onClick }: ChiProps) => {
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     onClick(index);
   };
@@ -22,8 +22,8 @@ export const Pon = ({ value, index, onClick }: PonProps) => {
       }
       onClick={handleClick}
     >
+      <RenderTile tile={value} rotate={true}/>
       <RenderTile tile={value} />
-      <RenderTile tile={value} rotate={true} />
       <RenderTile tile={value} />
     </button>
   );
