@@ -37,6 +37,22 @@ function App() {
         setBlocks(newBlocks);
         HandData.blocks = newBlocks;
         break;
+      case BlockType.OPENKAN:
+        newBlocks.push({
+          tile: value,
+          type: BlockType.OPENKAN,
+        });
+        setBlocks(newBlocks);
+        HandData.blocks = newBlocks;
+        break;
+      case BlockType.CLOSEDKAN:
+        newBlocks.push({
+          tile: value,
+          type: BlockType.CLOSEDKAN,
+        });
+        setBlocks(newBlocks);
+        HandData.blocks = newBlocks;
+        break;
       default:
         const newHand = [...currentHand];
         newHand.push(value);

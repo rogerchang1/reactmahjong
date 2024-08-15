@@ -23,7 +23,7 @@ export const Chi = ({ value, index, onClick }: ChiProps) => {
         style={{ width: `75px` }}
         className={
           //"flex items-center justify-center rounded mx-0.5 cursor-pointer select-none dark:text-white"
-          "flex items-center mlr-100px cursor-pointer"
+          "flex items-center mlr-trip cursor-pointer"
         }
         onClick={handleClick}
       >

@@ -3,6 +3,8 @@ import { Block } from "../model/Block.ts";
 import { Pon } from "./calledblocks/pon.tsx";
 import { BlockType } from "../constants/enums.ts";
 import { Chi } from "./calledblocks/chi.tsx";
+import { ClosedKan } from "./calledblocks/closedkan.tsx";
+import { OpenKan } from "./calledblocks/openkan.tsx";
 
 type HandBlocksProps = {
   blocks: Block[];
@@ -26,6 +28,24 @@ export const HandBlocks = ({ blocks, onClick }: HandBlocksProps) => {
           case BlockType.CHI:
             return (
               <Chi
+                value={val.tile}
+                index={index}
+                onClick={onClick}
+                key={val.type + "-" + val.tile + "-" + index}
+              />
+            );
+          case BlockType.OPENKAN:
+            return (
+              <OpenKan
+                value={val.tile}
+                index={index}
+                onClick={onClick}
+                key={val.type + "-" + val.tile + "-" + index}
+              />
+            );
+          case BlockType.CLOSEDKAN:
+            return (
+              <ClosedKan
                 value={val.tile}
                 index={index}
                 onClick={onClick}

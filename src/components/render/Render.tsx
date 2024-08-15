@@ -33,6 +33,7 @@ import Pei from "../../assets/img/Pei.svg";
 import Chun from "../../assets/img/Chun.svg";
 import Haku from "../../assets/img/Haku.svg";
 import Hatsu from "../../assets/img/Hatsu.svg";
+import TileBack from "../../assets/img/TileBack.svg";
 
 type RenderProps = {
   tile: string;
@@ -74,6 +75,7 @@ const tileToSVGMap: { [tile: string]: string } = {
   "5z": Chun,
   "6z": Haku,
   "7z": Hatsu,
+  "TileBack": TileBack,
 };
 
 export const RenderTile = ({ tile, rotate = false }: RenderProps) => {
