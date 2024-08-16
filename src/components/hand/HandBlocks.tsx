@@ -13,7 +13,7 @@ type HandBlocksProps = {
 
 export const HandBlocks = ({ blocks, onClick }: HandBlocksProps) => {
   return blocks ? (
-    <div className="flex justify-center mb-1 sm:text-3xl text-2xl">
+    <div className="flex justify-center mb-1 sm:text-3xl text-2xl hand-blocks-bg">
       {blocks.map((val: Block, index: number) => {
         switch (val.type) {
           case BlockType.PON:

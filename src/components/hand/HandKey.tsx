@@ -16,7 +16,7 @@ export const HandKey = ({ value, index, onClick }: HandKeyProps) => {
     <button
       style={{ width: `75px` }}
       className={
-        "flex items-center justify-center rounded mx-0.5 cursor-pointer select-none dark:text-white"
+        "flex items-center justify-center rounded mx-0.5 cursor-pointer border"
       }
       onClick={handleClick}
     >
