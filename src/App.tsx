@@ -2,13 +2,12 @@ import "./App.css";
 import { Keyboard } from "./components/keyboard/Keyboard.tsx";
 import React, { useState } from "react";
 import { HandContainer } from "./components/hand/HandContainer.tsx";
-import { Option } from "./components/keyboard/Option.tsx";
 import { ButtonGroup, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { HandData } from "./components/model/HandData.ts";
 import { tileToValueMap } from "./components/mapper/TileValueMapper.ts";
-import { Pon } from "./components/hand/calledblocks/pon.tsx";
 import { Block } from "./components/model/Block.ts";
 import { BlockType } from "./components/constants/enums.ts";
+import { HANDSIZE } from "./components/constants/constants.ts";
 
 function App() {
   const [currentHand, setHand] = useState<string[]>([]);
@@ -17,8 +16,15 @@ function App() {
   const [currentBlockType, setBlockType] = useState<BlockType>(
     BlockType.UNKNOWN
   );
+  const [currentHandSize, setHandSize] = useState<number>(0);
 
   const handleClickOnAdd = (value: string) => {
+    if (currentHandSize >= HANDSIZE) {
+      return;
+    }
+    if(currentBlockType !== BlockType.UNKNOWN  && currentHandSize + 3 > HANDSIZE) {
+      return;
+    }
     const newBlocks = [...currentBlocks];
     switch (currentBlockType) {
       case BlockType.PON:
@@ -27,6 +33,7 @@ function App() {
           type: BlockType.PON,
         });
         setBlocks(newBlocks);
+        setHandSize(currentHandSize + 3);
         HandData.blocks = newBlocks;
         break;
       case BlockType.CHI:
@@ -35,6 +42,7 @@ function App() {
           type: BlockType.CHI,
         });
         setBlocks(newBlocks);
+        setHandSize(currentHandSize + 3);
         HandData.blocks = newBlocks;
         break;
       case BlockType.OPENKAN:
@@ -43,6 +51,7 @@ function App() {
           type: BlockType.OPENKAN,
         });
         setBlocks(newBlocks);
+        setHandSize(currentHandSize + 3);
         HandData.blocks = newBlocks;
         break;
       case BlockType.CLOSEDKAN:
@@ -51,6 +60,7 @@ function App() {
           type: BlockType.CLOSEDKAN,
         });
         setBlocks(newBlocks);
+        setHandSize(currentHandSize + 3);
         HandData.blocks = newBlocks;
         break;
       default:
@@ -59,6 +69,7 @@ function App() {
         sortHand(newHand);
         setHand(newHand);
         HandData.hand = newHand.join();
+        setHandSize(currentHandSize + 1);
         break;
     }
   };
@@ -67,6 +78,7 @@ function App() {
     const newHand = [...currentHand];
     newHand.splice(index, 1);
     setHand(newHand);
+    setHandSize(currentHandSize - 1);
     HandData.hand = newHand.join();
   };
 
@@ -74,6 +86,7 @@ function App() {
     const newBlocks = [...currentBlocks];
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
+    setHandSize(currentHandSize - 3);
     HandData.blocks = newBlocks;
   };
 
