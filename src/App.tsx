@@ -18,59 +18,41 @@ function App() {
   );
   const [currentHandSize, setHandSize] = useState<number>(0);
 
+  const BlockTypes = [
+    { name: "None", value: BlockType.UNKNOWN },
+    { name: "Pon", value: BlockType.PON },
+    { name: "Chi", value: BlockType.CHI },
+    { name: "Open Kan", value: BlockType.OPENKAN },
+    { name: "Closed Kan", value: BlockType.CLOSEDKAN },
+  ];
+
   const handleClickOnAdd = (value: string) => {
     if (currentHandSize >= HANDSIZE) {
       return;
     }
-    if(currentBlockType !== BlockType.UNKNOWN  && currentHandSize + 3 > HANDSIZE) {
+    if (
+      currentBlockType !== BlockType.UNKNOWN &&
+      currentHandSize + 3 > HANDSIZE
+    ) {
       return;
     }
-    const newBlocks = [...currentBlocks];
-    switch (currentBlockType) {
-      case BlockType.PON:
-        newBlocks.push({
-          tile: value,
-          type: BlockType.PON,
-        });
-        setBlocks(newBlocks);
-        setHandSize(currentHandSize + 3);
-        HandData.blocks = newBlocks;
-        break;
-      case BlockType.CHI:
-        newBlocks.push({
-          tile: value,
-          type: BlockType.CHI,
-        });
-        setBlocks(newBlocks);
-        setHandSize(currentHandSize + 3);
-        HandData.blocks = newBlocks;
-        break;
-      case BlockType.OPENKAN:
-        newBlocks.push({
-          tile: value,
-          type: BlockType.OPENKAN,
-        });
-        setBlocks(newBlocks);
-        setHandSize(currentHandSize + 3);
-        HandData.blocks = newBlocks;
-        break;
-      case BlockType.CLOSEDKAN:
-        newBlocks.push({
-          tile: value,
-          type: BlockType.CLOSEDKAN,
-        });
-        setBlocks(newBlocks);
-        setHandSize(currentHandSize + 3);
-        HandData.blocks = newBlocks;
-        break;
-      default:
-        const newHand = [...currentHand];
-        newHand.push(value);
-        sortHand(newHand);
-        setHand(newHand);
-        HandData.hand = newHand.join();
-        setHandSize(currentHandSize + 1);
-        break;
+
+    if (currentBlockType === BlockType.UNKNOWN) {
+      const newHand = [...currentHand];
+      newHand.push(value);
+      sortHand(newHand);
+      setHand(newHand);
+      setHandSize(currentHandSize + 1);
+      HandData.hand = newHand.join();
+    } else {
+      const newBlocks = [...currentBlocks];
+      newBlocks.push({
+        tile: value,
+        type: currentBlockType,
+      });
+      setBlocks(newBlocks);
+      setHandSize(currentHandSize + 3);
+      HandData.blocks = newBlocks;
     }
   };
 
@@ -95,7 +77,7 @@ function App() {
     HandData.isRiichi = isChecked;
   };
 
-  const toggleOnChange = (val: BlockType) => {
+  const toggleBlockTypeOnChange = (val: BlockType) => {
     console.log("currentBlockType " + currentBlockType.toString());
     if (val === currentBlockType) {
       setBlockType(BlockType.UNKNOWN);
@@ -131,56 +113,20 @@ function App() {
       </div>
       <div>
         <ToggleButtonGroup type="radio" name="options" defaultValue={[0]}>
-          <ToggleButton
-            id="none"
-            type="checkbox"
-            variant="outline-primary"
-            checked={currentBlockType === BlockType.UNKNOWN}
-            value="0"
-            onChange={(e) => toggleOnChange(BlockType.UNKNOWN)}
-          >
-            None
-          </ToggleButton>
-          <ToggleButton
-            id="pon"
-            type="checkbox"
-            variant="outline-primary"
-            checked={currentBlockType === BlockType.PON}
-            value="1"
-            onChange={(e) => toggleOnChange(BlockType.PON)}
-          >
-            Pon
-          </ToggleButton>
-          <ToggleButton
-            id="chi"
-            type="checkbox"
-            variant="outline-primary"
-            checked={currentBlockType === BlockType.CHI}
-            value="2"
-            onChange={(e) => toggleOnChange(BlockType.CHI)}
-          >
-            Chi
-          </ToggleButton>
-          <ToggleButton
-            id="openkan"
-            type="checkbox"
-            variant="outline-primary"
-            checked={currentBlockType === BlockType.OPENKAN}
-            value="3"
-            onChange={(e) => toggleOnChange(BlockType.OPENKAN)}
-          >
-            Open Kan
-          </ToggleButton>
-          <ToggleButton
-            id="closedkan"
-            type="checkbox"
-            variant="outline-primary"
-            checked={currentBlockType === BlockType.CLOSEDKAN}
-            value="4"
-            onChange={(e) => toggleOnChange(BlockType.CLOSEDKAN)}
-          >
-            Closed Kan
-          </ToggleButton>
+          {BlockTypes.map((blocktype, idx) => (
+            <ToggleButton
+              key={idx}
+              id={`blocktype-${idx}`}
+              type="checkbox"
+              variant={"outline-primary"}
+              name="blocktype"
+              value={blocktype.value}
+              checked={currentBlockType === blocktype.value}
+              onChange={(e) => toggleBlockTypeOnChange(blocktype.value)}
+            >
+              {blocktype.name}
+            </ToggleButton>
+          ))}
         </ToggleButtonGroup>
       </div>
     </>
