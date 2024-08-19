@@ -1,4 +1,4 @@
-import { BlockType, RiichiSetting, SpecialYakuSetting, Wind, Agari } from "./enums";
+import { BlockType, RiichiSetting, SpecialYakuSetting, Wind, Agari } from "./enums.ts";
 
 export const BlockTypes = [
   { name: "None", value: BlockType.UNKNOWN },
