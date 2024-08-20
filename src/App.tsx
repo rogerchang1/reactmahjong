@@ -1,6 +1,6 @@
 import "./App.css";
 import { Keyboard } from "./components/keyboard/Keyboard.tsx";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HandContainer } from "./components/hand/HandContainer.tsx";
 import {
   ButtonGroup,
@@ -12,7 +12,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "react-bootstrap";
-import { HandData } from "./components/model/HandData.ts";
+import { HandModel } from "./components/model/HandModel.ts";
 import { tileToValueMap } from "./components/mapper/TileValueMapper.ts";
 import { Block } from "./components/model/Block.ts";
 import {
@@ -23,7 +23,13 @@ import {
   Wind,
 } from "./components/constants/enums.ts";
 import { HANDSIZE } from "./components/constants/constants.ts";
-import { RiichiSettings, SpecialYakuSettings, AgariSettings, WindSettings, BlockTypes } from "./components/constants/settings.ts";
+import {
+  RiichiSettings,
+  SpecialYakuSettings,
+  AgariSettings,
+  WindSettings,
+  BlockTypes,
+} from "./components/constants/settings.ts";
 
 function App() {
   const [currentHand, setHand] = useState<string[]>([]);
@@ -42,6 +48,38 @@ function App() {
   const [currentSpecialYakuSetting, setSpecialYakuSetting] =
     useState<SpecialYakuSetting>(SpecialYakuSetting.NONE);
   const [currentHandSize, setHandSize] = useState<number>(0);
+  const [lastTile, setLastTile] = useState<string>("");
+
+  useEffect(() => {
+    console.log(currentHandSize);
+    if (currentHandSize === HANDSIZE) {
+      mapStateToHandModel();
+      console.log(HandModel);
+    }
+  });
+
+  const mapStateToHandModel = () => {
+    HandModel.hand = currentHand.join();
+    HandModel.blocks = currentBlocks;
+    HandModel.isRiichi =
+      currentRiichiSetting === RiichiSetting.RIICHI ? true : false;
+    HandModel.isDoubleRiichi =
+      currentRiichiSetting === RiichiSetting.DOUBLERIICHI ? true : false;
+    HandModel.isIppatsu = isIppatsu;
+    HandModel.isChankan =
+      currentSpecialYakuSetting === SpecialYakuSetting.CHANKAN ? true : false;
+    HandModel.isRinshan =
+      currentSpecialYakuSetting === SpecialYakuSetting.RINSHAN ? true : false;
+    HandModel.isHaitei =
+      currentSpecialYakuSetting === SpecialYakuSetting.HAITEI ? true : false;
+    HandModel.isHoutei =
+      currentSpecialYakuSetting === SpecialYakuSetting.HOUTEI ? true : false;
+    HandModel.seatWind = seatWind;
+    HandModel.roundWind = roundWind;
+    HandModel.agari = agari;
+    HandModel.doraCount = doraCount;
+    HandModel.winTile = lastTile;
+  };
 
   const handleClickOnAdd = (value: string) => {
     if (currentHandSize >= HANDSIZE) {
@@ -49,7 +87,7 @@ function App() {
     }
     if (
       currentBlockType !== BlockType.UNKNOWN &&
-      currentHandSize + 3 > HANDSIZE
+      currentHandSize + 3 >= HANDSIZE
     ) {
       return;
     }
@@ -60,7 +98,7 @@ function App() {
       sortHand(newHand);
       setHand(newHand);
       setHandSize(currentHandSize + 1);
-      HandData.hand = newHand.join();
+      setLastTile(value);
     } else {
       const newBlocks = [...currentBlocks];
       newBlocks.push({
@@ -69,7 +107,6 @@ function App() {
       });
       setBlocks(newBlocks);
       setHandSize(currentHandSize + 3);
-      HandData.blocks = newBlocks;
     }
   };
 
@@ -78,7 +115,7 @@ function App() {
     newHand.splice(index, 1);
     setHand(newHand);
     setHandSize(currentHandSize - 1);
-    HandData.hand = newHand.join();
+    HandModel.hand = newHand.join();
   };
 
   const handleBlockClickOnDelete = (index: number) => {
@@ -86,7 +123,7 @@ function App() {
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
     setHandSize(currentHandSize - 3);
-    HandData.blocks = newBlocks;
+    HandModel.blocks = newBlocks;
   };
 
   const toggleBlockTypeOnChange = (val: BlockType) => {
