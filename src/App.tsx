@@ -51,12 +51,32 @@ function App() {
   const [lastTile, setLastTile] = useState<string>("");
 
   useEffect(() => {
-    console.log(currentHandSize);
     if (currentHandSize === HANDSIZE) {
       mapStateToHandModel();
       console.log(HandModel);
     }
   });
+
+  const requestHandScore = async () => {
+    //TODO: figure out react proxying
+    const response = await fetch("https://localhost:7302/handscore", {
+    //const response = await fetch("api/handscore", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(HandModel), // body data type must match "Content-Type" header
+    });
+  };
+
+  const requestWeather = async () => {
+    //const weather = await fetch("https://localhost:7302/weatherforecast");
+    const weather = await fetch("api/weatherforecast");
+    console.log(weather);
+
+    const weatherJson = await weather.json();
+    console.log(weatherJson);
+  };
 
   const mapStateToHandModel = () => {
     HandModel.hand = currentHand.join();
@@ -82,6 +102,8 @@ function App() {
   };
 
   const handleClickOnAdd = (value: string) => {
+    //requestWeather();
+    requestHandScore();
     if (currentHandSize >= HANDSIZE) {
       return;
     }
