@@ -1472,3 +1472,7 @@ html {
 html.dark {
   background-color: #0f172a;
 }
+
+.coltest {
+  padding: 10px;
+}
