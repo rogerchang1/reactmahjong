@@ -57,10 +57,10 @@ function App() {
     if (currentHandSize === HANDSIZE) {
       mapStateToHandModel();
       requestHandScore();
-    } else {
+    } else{
       setScore(undefined);
     }
-  });
+  }, [currentHandSize, isIppatsu, seatWind, roundWind, agari, doraCount, currentRiichiSetting, currentSpecialYakuSetting]);
 
   const requestHandScore = async () => {
     //TODO: figure out react proxying
@@ -88,6 +88,7 @@ function App() {
         tsumo: tsumoPayment,
         ron: responseJson.singlePayment,
         yakus: responseJson.yakuList,
+        agari: agari,
       };
       console.log(newScore);
       setScore(newScore);
@@ -98,6 +99,7 @@ function App() {
         tsumo: "",
         ron: "",
         yakus: [],
+        agari: agari,
         errorMsg: "Not a valid hand",
       };
       console.log(newScore);
