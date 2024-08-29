@@ -64,8 +64,8 @@ function App() {
 
   const requestHandScore = async () => {
     //TODO: figure out react proxying
-    const response = await fetch("https://localhost:7302/handscore", {
-      //const response = await fetch("api/handscore", {
+    //const response = await fetch("https://localhost:7302/handscore", {
+    const response = await fetch("api/handscore", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json",

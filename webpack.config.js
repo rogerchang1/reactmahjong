@@ -1,13 +1,10 @@
-const path = require('path');
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = (env) => {
-  entry: './src/index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-  },
-  devServer: {
-      port: env.PORT || 4001,
+  return {
+    entry: "./src/index.tsx",
+    devServer: {
+      port: !isNaN(env.PORT) ? env.PORT : 3000,
       allowedHosts: "all",
       proxy: [
         {
@@ -30,17 +27,31 @@ module.exports = (env) => {
         favicon: "./src/favicon.ico",
       }),
     ],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
+    module: {
+      rules: [
+        {
+          test: /\.(tsx|jsx|ts|js)?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                ["@babel/preset-react", { runtime: "automatic" }],
+                "@babel/preset-typescript",
+              ],
+            },
+          },
+        },
+        {
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"],
+        },
+        {
+          test: /\.(gif|svg|jpg|png)$/,
+          loader: "file-loader",
+        }
+      ],
+    },
+  };
 };
