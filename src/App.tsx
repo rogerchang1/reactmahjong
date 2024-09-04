@@ -63,7 +63,6 @@ function App() {
   }, [currentHandSize, isIppatsu, seatWind, roundWind, agari, doraCount, currentRiichiSetting, currentSpecialYakuSetting]);
 
   const requestHandScore = async () => {
-    //TODO: figure out react proxying
     //const response = await fetch("https://localhost:7302/handscore", {
     const response = await fetch("api/handscore", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -88,6 +87,8 @@ function App() {
         tsumo: tsumoPayment,
         ron: responseJson.singlePayment,
         yakus: responseJson.yakuList,
+        hanbreakdown: responseJson.hanBreakdown,
+        fubreakdown: responseJson.fuBreakdown,
         agari: agari,
       };
       console.log(newScore);
@@ -99,6 +100,8 @@ function App() {
         tsumo: "",
         ron: "",
         yakus: [],
+        hanbreakdown: [],
+        fubreakdown: [],
         agari: agari,
         errorMsg: "Not a valid hand",
       };

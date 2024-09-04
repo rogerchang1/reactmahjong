@@ -6,6 +6,8 @@ export interface Score {
   tsumo: string;
   ron: string;
   yakus: string[];
+  hanbreakdown: string[];
+  fubreakdown: string[];
   agari: Agari;
   errorMsg?: string;
 }

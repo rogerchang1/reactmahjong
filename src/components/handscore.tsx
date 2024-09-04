@@ -1,6 +1,7 @@
 import React from "react";
 import { Score } from "./model/Score.ts";
 import { Agari } from "./constants/enums.ts";
+import { Row } from "react-bootstrap";
 
 type HandScoreProps = {
   score: Score;
@@ -19,10 +20,20 @@ export const HandScore = ({ score }: HandScoreProps) => {
 
   return (
     <div>
-      <div>Han: {score.han}</div>
-      <div>Fu: {score.fu}</div>
-      <div>{scoreString}</div>
-      <div>Yaku: {yakus}</div>
+      <Row>
+        {score.han} Han {score.fu} Fu
+      </Row>
+      <Row>{scoreString}</Row>
+      <div className="border">
+        {score.hanbreakdown.map((val: string, index: number) => {
+          return <Row className="mx-2" key={index}>{val}</Row>;
+        })}
+      </div>
+      <div className="border">
+        {score.fubreakdown.map((val: string, index: number) => {
+          return <Row  className="mx-2" key={index}>{val}</Row>;
+        })}
+      </div>
     </div>
   );
 };
