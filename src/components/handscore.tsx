@@ -14,7 +14,7 @@ export const HandScore = ({ score }: HandScoreProps) => {
     scoreString = score.tsumo;
   }
 
-  if (score.errorMsg) {
+  if (score.errorMsg || score.han === 0) {
     return "Not a valid hand";
   }
 

@@ -1,8 +1,8 @@
 import { Agari } from "../constants/enums";
 
 export interface Score {
-  han: string;
-  fu: string;
+  han: number;
+  fu: number;
   tsumo: string;
   ron: string;
   yakus: string[];

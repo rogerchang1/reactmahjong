@@ -72,7 +72,6 @@ function App() {
       body: JSON.stringify(HandModel), // body data type must match "Content-Type" header
     });
     const responseJson = await response.json();
-    console.log(responseJson);
     if (responseJson != null) {
       let tsumoPayment =
         responseJson.allPayment["Regular"] +
@@ -91,12 +90,11 @@ function App() {
         fubreakdown: responseJson.fuBreakdown,
         agari: agari,
       };
-      console.log(newScore);
       setScore(newScore);
     } else {
       const newScore: Score = {
-        han: "",
-        fu: "",
+        han: 0,
+        fu: 0,
         tsumo: "",
         ron: "",
         yakus: [],
@@ -105,7 +103,6 @@ function App() {
         agari: agari,
         errorMsg: "Not a valid hand",
       };
-      console.log(newScore);
       setScore(newScore);
     }
   };
@@ -134,8 +131,6 @@ function App() {
   };
 
   const handleClickOnAdd = (value: string) => {
-    //requestWeather();
-    //requestHandScore();
     if (currentHandSize >= HANDSIZE) {
       return;
     }
