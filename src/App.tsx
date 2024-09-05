@@ -190,6 +190,28 @@ function App() {
     setRiichiSetting(val);
   };
 
+  const toggleAgariSettingOnChange = (val: Agari) => {
+    if (val === Agari.TSUMO) {
+      if(currentSpecialYakuSetting === SpecialYakuSetting.CHANKAN || currentSpecialYakuSetting === SpecialYakuSetting.HOUTEI){
+        setSpecialYakuSetting(SpecialYakuSetting.NONE);
+      }
+    }else{
+      if(currentSpecialYakuSetting === SpecialYakuSetting.RINSHAN|| currentSpecialYakuSetting === SpecialYakuSetting.HAITEI){
+        setSpecialYakuSetting(SpecialYakuSetting.NONE);
+      }
+    }
+    setAgari(val);
+  };
+
+  const toggleSpecialYakuSettingOnChange = (val: SpecialYakuSetting) => {
+    if (val === SpecialYakuSetting.CHANKAN || val === SpecialYakuSetting.HOUTEI) {
+      setAgari(Agari.RON);
+    }else if(val === SpecialYakuSetting.RINSHAN|| val === SpecialYakuSetting.HAITEI){
+      setAgari(Agari.TSUMO);
+    }
+    setSpecialYakuSetting(val);
+  };
+
   const sortHand = (arr: string[]) => {
     arr.sort((a, b) => (tileToValueMap[a] > tileToValueMap[b] ? 1 : -1));
   };
@@ -290,6 +312,7 @@ function App() {
                     type="radio"
                     name="Agari"
                     defaultValue={[0]}
+                    value={agari}
                   >
                     {AgariSettings.map((Agari, idx) => (
                       <ToggleButton
@@ -300,7 +323,7 @@ function App() {
                         name="agari"
                         value={Agari.value}
                         checked={agari === Agari.value}
-                        onChange={() => setAgari(Agari.value)}
+                        onChange={() => toggleAgariSettingOnChange(Agari.value)}
                       >
                         {Agari.name}
                       </ToggleButton>
@@ -383,6 +406,7 @@ function App() {
                     type="radio"
                     name="SpecialYakuSettings"
                     defaultValue={[0]}
+                    value={currentSpecialYakuSetting}
                   >
                     {SpecialYakuSettings.map((specialYaku, idx) => (
                       <ToggleButton
@@ -396,7 +420,7 @@ function App() {
                           currentSpecialYakuSetting === specialYaku.value
                         }
                         onChange={() =>
-                          setSpecialYakuSetting(specialYaku.value)
+                          toggleSpecialYakuSettingOnChange(specialYaku.value)
                         }
                       >
                         {specialYaku.name}
