@@ -13,7 +13,7 @@ export const Key = ({ value, onClick }: KeyProps) => {
 
   return (
     <button
-      style={{ width: `75px` }}
+      style={{ width: `60px` }}
       className={
         "flex items-center justify-center rounded mx-0.5 cursor-pointer border"
       }

@@ -12,7 +12,7 @@ type HandBlocksProps = {
 };
 
 export const HandBlocks = ({ blocks, onClick }: HandBlocksProps) => {
-  return blocks ? (
+  return blocks.length > 0 ? (
     <div className="flex justify-center mb-1 sm:text-3xl text-2xl hand-blocks-bg">
       {blocks.map((val: Block, index: number) => {
         switch (val.type) {
@@ -56,6 +56,6 @@ export const HandBlocks = ({ blocks, onClick }: HandBlocksProps) => {
       })}
     </div>
   ) : (
-    ""
+    <div className="handheight flex justify-center mb-1 sm:text-3xl text-2xl hand-blocks-bg"/>
   );
 };
