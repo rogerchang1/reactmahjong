@@ -72,9 +72,9 @@ const tileToSVGMap: { [tile: string]: string } = {
   "2z": Nan,
   "3z": Shaa,
   "4z": Pei,
-  "5z": Chun,
-  "6z": Haku,
-  "7z": Hatsu,
+  "5z": Haku,
+  "6z": Hatsu,
+  "7z": Chun,
   "TileBack": TileBack,
 };
 
