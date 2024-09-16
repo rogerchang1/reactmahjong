@@ -13,7 +13,7 @@ import {
   ToggleButtonGroup,
 } from "react-bootstrap";
 import { HandModel } from "./components/model/HandModel.ts";
-import { tileToValueMap } from "./components/mapper/TileValueMapper.ts";
+import { tileToValueMap, valueToTileMap } from "./components/mapper/TileValueMapper.ts";
 import { Block } from "./components/model/Block.ts";
 import {
   Agari,
@@ -140,6 +140,9 @@ function App() {
     ) {
       return;
     }
+    if (!validateTile(value)){
+      return;
+    }
 
     if (currentBlockType === BlockType.UNKNOWN) {
       const newHand = [...currentHand];
@@ -166,6 +169,40 @@ function App() {
     setHandSize(currentHandSize - 1);
     HandModel.hand = newHand.join();
   };
+
+  const validateTile = (value: string): boolean => {
+    let count: number = countTiles(value);
+
+    if(count >= 4){
+      return false;
+    }
+
+    if(currentBlockType === BlockType.CHI){
+      const count2: number = countTiles(valueToTileMap[tileToValueMap[value]+1]);
+      const count3: number = countTiles(valueToTileMap[tileToValueMap[value]+2]);
+      if(count2 >= 4 || count3 >= 4){
+        return false;
+      }
+    }
+
+    if(currentBlockType === BlockType.PON && count >= 2){
+      return false;
+    }
+
+    if((currentBlockType === BlockType.OPENKAN || currentBlockType === BlockType.CLOSEDKAN) && count >= 1){
+      return false;
+    }
+    return true;
+  };
+
+  const countTiles = (value: string): number => {
+    let count: number = currentHand.filter(tile => tile === value).length;
+    count += 3 * currentBlocks.filter(block => block.tile === value && block.type === BlockType.PON).length;
+    count += 4 * currentBlocks.filter(block => block.tile === value && (block.type === BlockType.OPENKAN || block.type === BlockType.CLOSEDKAN)).length;
+    count += currentBlocks.filter(block => block.type === BlockType.CHI && Math.abs(parseInt(block.tile.charAt(0)) - parseInt(value.charAt(0))) <= 2).length;
+    return count;
+
+  }
 
   const handleBlockClickOnDelete = (index: number) => {
     const newBlocks = [...currentBlocks];
