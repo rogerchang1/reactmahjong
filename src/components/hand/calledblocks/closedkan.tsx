@@ -15,7 +15,7 @@ export const ClosedKan = ({ value, index, onClick }: ClosedKanProps) => {
 
   return (
     <button
-      style={{ width: `75px` }}
+      style={{ width: `60px` }}
       className={
         //"flex items-center justify-center rounded mx-0.5 cursor-pointer select-none dark:text-white"
         "flex items-center mlr-quad cursor-pointer"

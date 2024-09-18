@@ -32,6 +32,7 @@ import {
 } from "./components/constants/settings.ts";
 import { Score } from "./components/model/Score.ts";
 import { HandScore } from "./components/handscore.tsx";
+import { MsgNotification } from "./components/MsgNotification.tsx";
 
 function App() {
   const [currentHand, setHand] = useState<string[]>([]);
@@ -52,6 +53,7 @@ function App() {
   const [currentHandSize, setHandSize] = useState<number>(0);
   const [lastTile, setLastTile] = useState<string>("");
   const [score, setScore] = useState<Score>();
+  const [msgNotification, setMsgNofication] = useState<string>("");
 
   useEffect(() => {
     if (currentHandSize === HANDSIZE) {
@@ -131,13 +133,8 @@ function App() {
   };
 
   const handleClickOnAdd = (value: string) => {
-    if (currentHandSize >= HANDSIZE) {
-      return;
-    }
-    if (
-      currentBlockType !== BlockType.UNKNOWN &&
-      currentHandSize + 3 >= HANDSIZE
-    ) {
+    if (currentHandSize >= HANDSIZE || (currentBlockType !== BlockType.UNKNOWN && currentHandSize + 3 >= HANDSIZE)) {
+      setMsgNofication("Max Hand Size reached");
       return;
     }
     if (!validateTile(value)){
@@ -163,6 +160,7 @@ function App() {
   };
 
   const handleClickOnDelete = (index: number) => {
+    setMsgNofication("");
     const newHand = [...currentHand];
     newHand.splice(index, 1);
     setHand(newHand);
@@ -172,39 +170,46 @@ function App() {
 
   const validateTile = (value: string): boolean => {
     let count: number = countTiles(value);
+    let isValid: boolean = true;
 
     if(count >= 4){
-      return false;
+      isValid = false;
     }
 
     if(currentBlockType === BlockType.CHI){
       const count2: number = countTiles(valueToTileMap[tileToValueMap[value]+1]);
       const count3: number = countTiles(valueToTileMap[tileToValueMap[value]+2]);
       if(count2 >= 4 || count3 >= 4){
-        return false;
+        isValid = false;
       }
     }
 
     if(currentBlockType === BlockType.PON && count >= 2){
-      return false;
+      isValid = false;
     }
 
     if((currentBlockType === BlockType.OPENKAN || currentBlockType === BlockType.CLOSEDKAN) && count >= 1){
-      return false;
+      isValid = false;
     }
-    return true;
+    if(isValid){
+      setMsgNofication("");
+    }else{
+      setMsgNofication("Cannot add more tiles of " + value);
+    }
+    return isValid;
   };
 
   const countTiles = (value: string): number => {
     let count: number = currentHand.filter(tile => tile === value).length;
     count += 3 * currentBlocks.filter(block => block.tile === value && block.type === BlockType.PON).length;
     count += 4 * currentBlocks.filter(block => block.tile === value && (block.type === BlockType.OPENKAN || block.type === BlockType.CLOSEDKAN)).length;
-    count += currentBlocks.filter(block => block.type === BlockType.CHI && Math.abs(parseInt(block.tile.charAt(0)) - parseInt(value.charAt(0))) <= 2).length;
+    count += currentBlocks.filter(block => block.type === BlockType.CHI && (parseInt(value.charAt(0)) - parseInt(block.tile.charAt(0)) >= 0 && parseInt(value.charAt(0)) - parseInt(block.tile.charAt(0)) <= 2)).length;
     return count;
 
   }
 
   const handleBlockClickOnDelete = (index: number) => {
+    setMsgNofication("");
     const newBlocks = [...currentBlocks];
     newBlocks.splice(index, 1);
     setBlocks(newBlocks);
@@ -268,6 +273,7 @@ function App() {
           onTileClick={handleClickOnDelete}
           onBlockClick={handleBlockClickOnDelete}
         />
+        <MsgNotification msg={msgNotification}/>
         <Keyboard onClick={handleClickOnAdd} />
         <div>
           Call
