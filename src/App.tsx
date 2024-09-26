@@ -259,7 +259,10 @@ function App() {
   };
 
   const validateAndSetDoraCount = (val: number) => {
-    if (val >= 0) {
+    if(val < 0 || val > 20){
+      setMsgNofication("Dora count should be between 0 and 20");
+    }else{
+      setMsgNofication("");
       setDoraCount(val);
     }
   };
